@@ -1,8 +1,8 @@
 
 import { useRef, useState } from "react";
-import { Canvas, useThree, useFrame } from "@react-three/fiber";
-import { CameraControls, Environment, useTexture } from "@react-three/drei";
 import * as THREE from "three";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Environment, useTexture } from "@react-three/drei";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { 
@@ -50,20 +50,6 @@ const PanoramaSphere = ({ url }: { url: string }) => {
   );
 };
 
-// Controls for camera movement
-const CameraController = ({ speed = 1 }: { speed?: number }) => {
-  const { camera } = useThree();
-  const controlsRef = useRef<CameraControls | null>(null);
-  
-  useFrame((_, delta) => {
-    if (controlsRef.current) {
-      controlsRef.current.update(delta * speed);
-    }
-  });
-  
-  return <CameraControls ref={controlsRef} />;
-};
-
 // Main VR Viewer component
 const VRViewer = () => {
   const [currentPanorama, setCurrentPanorama] = useState(0);
@@ -96,7 +82,12 @@ const VRViewer = () => {
     <div ref={containerRef} className="relative w-full h-screen">
       <Canvas camera={{ position: [0, 0, 0.1], fov: 75 }}>
         <PanoramaSphere url={PANORAMAS[currentPanorama].url} />
-        <CameraController speed={rotationSpeed} />
+        <OrbitControls 
+          enableZoom={false} 
+          enablePan={false} 
+          rotateSpeed={rotationSpeed} 
+          autoRotate={false}
+        />
         <Environment preset="sunset" />
       </Canvas>
       
