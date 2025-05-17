@@ -36,10 +36,10 @@ const PANORAMAS = [
 ];
 
 // The panorama sphere component
-const PanoramaSphere = ({ url }: { url: string }) => {
+function PanoramaSphere({ url }: { url: string }) {
   const texture = useTexture(url);
   
-  // Flip the texture inside out
+  // Configure the texture for a panorama sphere
   texture.mapping = THREE.EquirectangularReflectionMapping;
   
   return (
@@ -48,7 +48,7 @@ const PanoramaSphere = ({ url }: { url: string }) => {
       <meshBasicMaterial map={texture} side={THREE.BackSide} />
     </mesh>
   );
-};
+}
 
 // Main VR Viewer component
 const VRViewer = () => {
@@ -85,7 +85,7 @@ const VRViewer = () => {
 
   return (
     <div ref={containerRef} className="relative w-full h-screen">
-      <Canvas camera={{ position: [0, 0, 0.1], fov: 75 }}>
+      <Canvas flat camera={{ position: [0, 0, 0.1], fov: 75 }}>
         <PanoramaSphere url={PANORAMAS[currentPanorama].url} />
         <OrbitControls 
           enableZoom={false} 
