@@ -56,6 +56,7 @@ const VRViewer = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(1);
+  const [autoRotate, setAutoRotate] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const toggleFullscreen = () => {
@@ -78,6 +79,10 @@ const VRViewer = () => {
     setCurrentPanorama((prev) => (prev - 1 + PANORAMAS.length) % PANORAMAS.length);
   };
 
+  const toggleAutoRotate = () => {
+    setAutoRotate(prev => !prev);
+  };
+
   return (
     <div ref={containerRef} className="relative w-full h-screen">
       <Canvas camera={{ position: [0, 0, 0.1], fov: 75 }}>
@@ -86,7 +91,8 @@ const VRViewer = () => {
           enableZoom={false} 
           enablePan={false} 
           rotateSpeed={rotationSpeed} 
-          autoRotate={false}
+          autoRotate={autoRotate}
+          autoRotateSpeed={0.5}
         />
         <Environment preset="sunset" />
       </Canvas>
@@ -145,6 +151,16 @@ const VRViewer = () => {
               onValueChange={(value) => setRotationSpeed(value[0])}
               className="max-w-xs"
             />
+            <div className="mt-4 flex items-center">
+              <input 
+                type="checkbox"
+                id="autoRotate"
+                checked={autoRotate}
+                onChange={toggleAutoRotate}
+                className="mr-2"
+              />
+              <label htmlFor="autoRotate">Auto-rotate scene</label>
+            </div>
           </div>
         </div>
       )}
