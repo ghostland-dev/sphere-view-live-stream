@@ -99,3 +99,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes fade-out {
+  0% { opacity: 0.7; }
+  100% { opacity: 0; }
+}
+
+.animate-fade-out {
+  animation: fade-out 3s ease-in-out forwards;
+}
