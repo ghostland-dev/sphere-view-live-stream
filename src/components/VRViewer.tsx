@@ -51,8 +51,8 @@ function PanoramaSphere({ url }: { url: string }) {
 }
 
 // Main VR Viewer component
-const VRViewer = () => {
-  const [currentPanorama, setCurrentPanorama] = useState(0);
+const VRViewer = ({ initialPanorama = 0 }: { initialPanorama?: number }) => {
+  const [currentPanorama, setCurrentPanorama] = useState(initialPanorama);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(1);
