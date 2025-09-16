@@ -13,25 +13,43 @@ import {
   Info
 } from "lucide-react";
 
-// List of panorama scenes
+// List of panorama scenes (synchronized with Gallery)
 const PANORAMAS = [
   { 
     id: 1, 
-    name: "Beach Sunrise", 
+    name: "Lever de Soleil sur la Plage", 
     url: "https://images.unsplash.com/photo-1505533321630-975218a5f66f?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=4800",
-    description: "Beautiful sunrise on a tropical beach" 
+    description: "Un magnifique lever de soleil sur une plage tropicale avec des eaux cristallines"
   },
   { 
     id: 2, 
-    name: "Mountain View", 
+    name: "Vue Panoramique des Montagnes", 
     url: "https://images.unsplash.com/photo-1540611025311-01df3cef54b5?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=4800",
-    description: "Panoramic mountain landscape at sunset" 
+    description: "Paysage montagneux panoramique au coucher du soleil avec une vue à couper le souffle"
   },
   { 
     id: 3, 
-    name: "City Skyline", 
+    name: "Horizon Urbain", 
     url: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=4800",
-    description: "Urban skyline with skyscrapers" 
+    description: "Skyline urbain moderne avec des gratte-ciels illuminés en soirée"
+  },
+  { 
+    id: 4, 
+    name: "Forêt Tropicale", 
+    url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=4800",
+    description: "Au cœur d'une forêt tropicale luxuriante avec une biodiversité exceptionnelle"
+  },
+  { 
+    id: 5, 
+    name: "Désert Sahara", 
+    url: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=4800",
+    description: "Dunes infinies du Sahara sous un ciel étoilé magnifique"
+  },
+  { 
+    id: 6, 
+    name: "Aurores Boréales", 
+    url: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=4800",
+    description: "Spectacle magique des aurores boréales dans le ciel arctique"
   }
 ];
 
@@ -52,7 +70,9 @@ function PanoramaSphere({ url }: { url: string }) {
 
 // Main VR Viewer component
 const VRViewer = ({ initialPanorama = 0 }: { initialPanorama?: number }) => {
-  const [currentPanorama, setCurrentPanorama] = useState(initialPanorama);
+  // Validate and clamp the initial panorama index
+  const validInitialPanorama = Math.max(0, Math.min(initialPanorama, PANORAMAS.length - 1));
+  const [currentPanorama, setCurrentPanorama] = useState(validInitialPanorama);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(1);
@@ -86,7 +106,7 @@ const VRViewer = ({ initialPanorama = 0 }: { initialPanorama?: number }) => {
   return (
     <div ref={containerRef} className="relative w-full h-screen">
       <Canvas flat camera={{ position: [0, 0, 0.1], fov: 75 }}>
-        <PanoramaSphere url={PANORAMAS[currentPanorama].url} />
+        {PANORAMAS[currentPanorama] && <PanoramaSphere url={PANORAMAS[currentPanorama].url} />}
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
@@ -139,8 +159,8 @@ const VRViewer = ({ initialPanorama = 0 }: { initialPanorama?: number }) => {
       {/* Scene info overlay */}
       {showInfo && (
         <div className="absolute top-6 left-6 right-6 bg-black/70 text-white p-4 rounded-lg z-10">
-          <h2 className="text-xl font-bold mb-2">{PANORAMAS[currentPanorama].name}</h2>
-          <p>{PANORAMAS[currentPanorama].description}</p>
+          <h2 className="text-xl font-bold mb-2">{PANORAMAS[currentPanorama]?.name}</h2>
+          <p>{PANORAMAS[currentPanorama]?.description}</p>
           <div className="mt-4">
             <label className="block mb-2">Rotation Speed:</label>
             <Slider 
@@ -171,9 +191,11 @@ const VRViewer = ({ initialPanorama = 0 }: { initialPanorama?: number }) => {
       </div>
       
       {/* Instruction overlay that fades away */}
-      <div className="absolute top-1/2 left-0 right-0 text-center text-white opacity-70 pointer-events-none animate-fade-out z-10">
-        Drag to look around
-      </div>
+      {PANORAMAS[currentPanorama] && (
+        <div className="absolute top-1/2 left-0 right-0 text-center text-white opacity-70 pointer-events-none animate-fade-out z-10">
+          Drag to look around
+        </div>
+      )}
     </div>
   );
 };
