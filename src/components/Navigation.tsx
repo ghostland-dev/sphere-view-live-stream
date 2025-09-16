@@ -9,7 +9,8 @@ import {
   Image, 
   Settings, 
   HelpCircle,
-  Info
+  Info,
+  Wand2
 } from "lucide-react";
 
 const Navigation = () => {
@@ -20,6 +21,7 @@ const Navigation = () => {
     { href: "/", label: "Accueil", icon: Home },
     { href: "/viewer", label: "Visualiseur 360°", icon: Eye },
     { href: "/gallery", label: "Galerie", icon: Image },
+    { href: "/create", label: "Créer", icon: Wand2 },
     { href: "/settings", label: "Paramètres", icon: Settings },
     { href: "/help", label: "Aide", icon: HelpCircle },
     { href: "/about", label: "À propos", icon: Info },

@@ -7,6 +7,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import ViewerPage from "./pages/Index";
 import Gallery from "./pages/Gallery";
+import Create from "./pages/Create";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
 import About from "./pages/About";
@@ -25,6 +26,7 @@ const App = () => (
             <Route index element={<Home />} />
             <Route path="viewer" element={<ViewerPage />} />
             <Route path="gallery" element={<Gallery />} />
+            <Route path="create" element={<Create />} />
             <Route path="settings" element={<Settings />} />
             <Route path="help" element={<Help />} />
             <Route path="about" element={<About />} />
